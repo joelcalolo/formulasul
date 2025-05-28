@@ -1,0 +1,66 @@
+:root {
+    --primary: #1986FF; /* Nova cor do logo */
+    --secondary: #38A169;
+    --accent: #FFC107;
+    --background: #F9FAFB;
+    --text: #333333;
+}
+.accordion-content {
+    display: none;
+}
+.accordion-content.active {
+    display: block;
+}
+html {
+    scroll-behavior: smooth;
+}
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    width: 70%;
+    max-width: 500px;
+    border-radius: 5px;
+    position: relative;
+}
+/* Estilo para o hero com imagem de fundo */
+#inicio {
+    background: url('/images/cinematic-style-mall.jpg') no-repeat center center/cover;
+    /*background-color: #1986FF;*/
+    position: relative;
+    padding-top: 4rem; /* Reduzido para um hero mais curto */
+    padding-bottom: 2rem;
+}
+#inicio::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Overlay escuro para legibilidade */
+    z-index: 1;
+}
+#inicio > * {
+    position: relative;
+    z-index: 2;
+}
+/* Ajuste para navbar transparente no início */
+#nav-bg {
+    background-color: transparent; /* Totalmente transparente no início */
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+#nav-bg.scrolled {
+    background-color: white; /* Fundo branco ao rolar */
+    opacity: 1;
+}

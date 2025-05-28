@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórmula Sul - Aluguel de Carros, Transfers e Passeios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #1986FF; /* Nova cor do logo */
+            --secondary: #38A169;
+            --accent: #FFC107;
+            --background: #F9FAFB;
+            --text: #333333;
+        }
+        .accordion-content {
+            display: none;
+        }
+        .accordion-content.active {
+            display: block;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            width: 70%;
+            max-width: 500px;
+            border-radius: 5px;
+            position: relative;
+        }
+        /* Estilo para o hero com imagem de fundo */
+        #inicio {
+            /*background: url('/images/hero-bg.png') no-repeat center center/cover;*/
+            background-color: #1986FF;
+            position: relative;
+            padding-top: 4rem; /* Reduzido para um hero mais curto */
+            padding-bottom: 2rem;
+        }
+        #inicio::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Overlay escuro para legibilidade */
+            z-index: 1;
+        }
+        #inicio > * {
+            position: relative;
+            z-index: 2;
+        }
+        /* Ajuste para navbar transparente no início */
+        #nav-bg {
+            background-color: transparent; /* Totalmente transparente no início */
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+        }
+        #nav-bg.scrolled {
+            background-color: white; /* Fundo branco ao rolar */
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--text)] font-sans">
+
+<!-- Navbar -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center">
+        <!-- Logo -->
+        <img src="/images/logo.png" alt="Fórmula Sul" class="h-8 mr-2">
+        <!-- (Opcional) Nome ao lado do logo -->
+        <span class="text-2xl font-bold text-[var(--primary)]">Fórmula Sul</span>
+      </a>
+
+        <!-- Botões Login, Idioma e Menu Hamburguer -->
+        <div class="flex items-center space-x-4 relative"> <!-- Adicionei relative aqui -->
+            <button class="bg-[var(--primary)] text-white px-4 py-2 rounded-md font-semibold hover:bg-[var(--primary)]/90" onclick="openModal()">Login</button>
+            <select class="p-2 rounded-none bg-transparent focus:outline-none focus:ring-0" onchange="switchLanguage(this.value)">
+                <option value="pt" data-flag="🇧🇷">🇧🇷 Português</option>
+                <option value="en" data-flag="🇺🇸">🇺🇸 English</option>
+            </select>
+            <!-- Menu Hamburguer (PC e Mobile) -->
+            <button class="text-gray-700 focus:outline-none" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            
+            <!-- Menu Mobile - Agora como dropdown -->
+            <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md py-1 z-50">
+                <a href="aluguer.html" class="flex items-center px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-bold">
+                    <svg class="w-5 h-5 mr-2 text-[var(--primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13h2l1-5h13l1 5h2m-3 0v6a2 2 0 01-2 2h-4a2 2 0 01-2-2v-6m-4 0v6a2 2 0 002 2h4a2 2 0 002-2v-6"></path>
+                    </svg>
+                    Aluguel
+                </a>
+                <a href="transfer.html" class="flex items-center px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-bold">
+                    <svg class="w-5 h-5 mr-2 text-[var(--primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6h-6V8zm-6 0H7a2 2 0 00-2 2v6h6V8zm-6 8v2a1 1 0 001 1h12a1 1 0 001-1v-2"></path>
+                    </svg>
+                    Transfer
+                </a>
+                <a href="passeios.html" class="flex items-center px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-bold">
+                    <svg class="w-5 h-5 mr-2 text-[var(--primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12A9 9 0 113 12a9 9 0 0118 0zm-6-2l-4 4m0 0l-4-4m4 4V8"></path>
+                    </svg>
+                    Passeios Turísticos
+                </a>
+            
+                <hr class="my-2 border-t border-gray-200">
+            
+                <a href="suporte.html" target="_blank" class="block px-4 py-2 text-gray-700 hover:bg-[var(--background)]">Suporte</a>
+                <a href="/conta" class="block px-4 py-2 text-gray-700 hover:bg-[var(--background)]">Conta</a>
+            </div>
+            
+        </div>
+    </div>
+</nav>
+
+<!-- Modal Login/Cadastro -->
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700" onclick="closeModal()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <div class="flex border-b">
+            <button id="login-tab" class="flex-1 py-4 font-medium text-[var(--primary)] border-b-2 border-[var(--primary)]" onclick="switchTab('login')">Login</button>
+            <button id="register-tab" class="flex-1 py-4 font-medium text-gray-500" onclick="switchTab('register')">Cadastro</button>
+        </div>
+        <div id="login-form" class="p-6">
+            <h2 class="text-2xl font-bold text-[var(--primary)] mb-6">Login</h2>
+            <form>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="login-email">E-mail</label>
+                    <input class="w-full px-3 py-2 border rounded" id="login-email" type="email" placeholder="Seu E-mail">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="login-password">Senha</label>
+                    <input class="w-full px-3 py-2 border rounded" id="login-password" type="password" placeholder="Sua Senha">
+                </div>
+                <button class="w-full bg-[var(--primary)] text-white py-2 rounded-md hover:bg-[var(--primary)]/90" type="submit">Entrar</button>
+                <p class="mt-4 text-center text-sm text-gray-600">Não tem conta? <a href="#" class="text-[var(--primary)] font-medium" onclick="switchTab('register')">Cadastre-se</a></p>
+            </form>
+        </div>
+        <div id="register-form" class="hidden p-6">
+            <h2 class="text-2xl font-bold text-[var(--primary)] mb-6">Criar Conta</h2>
+            <form>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="register-name">Nome Completo</label>
+                    <input class="w-full px-3 py-2 border rounded" id="register-name" type="text" placeholder="Seu Nome">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="register-email">E-mail</label>
+                    <input class="w-full px-3 py-2 border rounded" id="register-email" type="email" placeholder="Seu E-mail">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="register-phone">Telefone</label>
+                    <input class="w-full px-3 py-2 border rounded" id="register-phone" type="tel" placeholder="Seu Telefone">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="register-password">Senha</label>
+                    <input class="w-full px-3 py-2 border rounded" id="register-password" type="password" placeholder="Crie uma Senha">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="register-confirm">Confirme a Senha</label>
+                    <input class="w-full px-3 py-2 border rounded" id="register-confirm" type="password" placeholder="Confirme sua Senha">
+                </div>
+                <button class="w-full bg-[var(--primary)] text-white py-2 rounded-md hover:bg-[var(--primary)]/90" type="submit">Cadastrar</button>
+                <p class="mt-4 text-center text-sm text-gray-600">Já tem conta? <a href="#" class="text-[var(--primary)] font-medium" onclick="switchTab('login')">Faça login</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+ <!-- Hero com formulário -->
+ <section class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-6" style="background-image: url('https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&w=1260'); background-size: cover;">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">Descubra os Melhores Passeios com a Fórmula Sul</h1>
+      <p class="text-lg mb-8">Escolha seu tipo de passeio, data e número de pessoas para encontrar as opções ideais.</p>
+
+      <form class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white p-6 rounded-xl shadow-lg text-gray-900">
+        <div>
+          <label class="block text-sm font-medium mb-1">Tipo de Passeio</label>
+          <select class="w-full border border-gray-300 rounded-lg p-2">
+            <option value="">Todos</option>
+            <option value="praia">Praia</option>
+            <option value="historia">História</option>
+            <option value="aventura">Aventura</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Data</label>
+          <input type="date" class="w-full border border-gray-300 rounded-lg p-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Pessoas</label>
+          <input type="number" class="w-full border border-gray-300 rounded-lg p-2" min="1" />
+        </div>
+        <div class="flex items-end">
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg">Pesquisar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+ <!-- Passeios Populares -->
+  <section class="py-16 px-6 bg-gray-100">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold mb-8 text-center">Passeios Populares</h2>
+      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+          <img src="https://img.freepik.com/free-photo/praia-dos-tres-irmaos_181624-26756.jpg?t=st=1747035615~exp=1747039215~hmac=ab489390d6ed15f5de2ce9898cb14019b0be88db6abb7536b33e77a69ff7ff71&w=1060" class="w-full h-48 object-cover" alt="Deserto do Namibe" />
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">Praia do Lubito</h3>
+            <p class="text-sm text-gray-600">Relaxe nas águas quentes e areia branca com vista deslumbrante.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60" class="w-full h-48 object-cover" alt="Deserto do Namibe" />
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">Serra da Leba</h3>
+            <p class="text-sm text-gray-600">Explore curvas e paisagens inesquecíveis na serra mais icônica de Angola.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+          <img src="https://img.freepik.com/free-photo/beautiful-view-tranquil-desert-clear-sky-captured-morocco_181624-8496.jpg?t=st=1747035673~exp=1747039273~hmac=cb7097f46224d76ce92953dab36291f48af98722b2bed3f92018c2b77fc7a467&w=1380" class="w-full h-48 object-cover" alt="Deserto do Namibe" />
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">Passeio no Deserto</h3>
+            <p class="text-sm text-gray-600">Aventure-se em dunas, vistas amplas e silêncio absoluto do deserto do Namibe.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galeria com depoimento -->
+  <section class="py-16 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold mb-12 text-center">Momentos Inesquecíveis</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <img src="https://images.pexels.com/photos/21014/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800" class="rounded-xl shadow-md" alt="Travel Africa" />
+        <img src="https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?auto=compress&cs=tinysrgb&w=800" class="rounded-xl shadow-md" alt="Boat Tourism" />
+        <img src="https://images.pexels.com/photos/358483/pexels-photo-358483.jpeg?auto=compress&cs=tinysrgb&w=800" class="rounded-xl shadow-md" alt="Sunset Trip" />
+      </div>
+
+      <div class="bg-indigo-50 p-6 rounded-xl shadow-md text-center">
+        <p class="italic text-lg text-indigo-800 mb-4">"A Fórmula Sul tornou a nossa viagem ao Namibe uma experiência mágica! Tudo foi perfeito: do atendimento ao passeio." </p>
+        <p class="font-semibold text-indigo-900">— Ana Paula, Cliente Satisfeita</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16 px-6 bg-gray-100">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-10 text-center">Perguntas Frequentes</h2>
+      <div class="space-y-6">
+        <div>
+          <button onclick="toggleFAQ(0)" class="w-full text-left font-medium text-lg bg-white px-4 py-3 rounded-md shadow">
+            Quais são os horários disponíveis para os passeios?
+          </button>
+          <div class="faq-answer px-4 pt-2 text-gray-700">
+            Os passeios geralmente começam às 8h e retornam até as 18h, mas oferecemos opções personalizadas mediante reserva.
+          </div>
+        </div>
+
+        <div>
+          <button onclick="toggleFAQ(1)" class="w-full text-left font-medium text-lg bg-white px-4 py-3 rounded-md shadow">
+            Como posso fazer uma reserva?
+          </button>
+          <div class="faq-answer px-4 pt-2 text-gray-700">
+            Você pode reservar diretamente no site, via WhatsApp ou entrando em contato com nossa equipe de atendimento.
+          </div>
+        </div>
+
+        <div>
+          <button onclick="toggleFAQ(2)" class="w-full text-left font-medium text-lg bg-white px-4 py-3 rounded-md shadow">
+            É possível cancelar ou remarcar um passeio?
+          </button>
+          <div class="faq-answer px-4 pt-2 text-gray-700">
+            Sim. Cancelamentos até 48h antes têm reembolso total. Remarcações são gratuitas com até 24h de antecedência.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- Botão para WhatsApp -->
+<a href="https://wa.me/1234567890" target="_blank" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 2.096.548 4.069 1.5 5.794L0 24l6.314-1.5A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22.071c-1.752 0-3.437-.448-4.932-1.29l-5.486 1.31 1.31-5.486A11.932 11.932 0 011.929 12C1.929 6.546 6.546 1.929 12 1.929c5.454 0 10.071 4.617 10.071 10.071 0 5.454-4.617 10.071-10.071 10.071zM16.828 14.586c-.234-.117-1.38-.682-1.595-.758-.215-.077-.372-.117-.528.117-.156.234-.608.758-.745.915-.137.156-.274.176-.508.059-.234-.117-.99-.366-1.884-1.17-.694-.624-1.164-1.396-1.3-1.63-.137-.234-.015-.36.103-.477.105-.105.234-.273.352-.41.117-.137.156-.234.234-.39.078-.156.039-.293-.02-.41-.058-.117-.528-1.288-.724-1.762-.195-.47-.39-.41-.528-.416-.137-.006-.293-.006-.45-.006-.156 0-.41.058-.625.293-.215.234-.82.8-.82 1.95 0 1.15.82 2.26.936 2.417.117.156 1.617 2.47 3.917 3.464.55.237 1.02.38 1.37.485.575.17 1.1.146 1.513.09.46-.063.89-.325 1.14-.64.25-.315.25-.585.215-.64-.035-.055-.117-.088-.234-.146z"></path></svg>
+</a>
+
+  <!-- Rodapé -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2025 Fórmula Sul. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+<script>
+    function openModal() {
+        document.getElementById('auth-modal').classList.remove('hidden');
+        switchTab('login');
+    }
+
+    function closeModal() {
+        document.getElementById('auth-modal').classList.add('hidden');
+    }
+
+    function switchTab(tab) {
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+
+        if (tab === 'login') {
+            loginForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+            loginTab.classList.add('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
+            loginTab.classList.remove('text-gray-500');
+            registerTab.classList.remove('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
+            registerTab.classList.add('text-gray-500');
+        } else {
+            loginForm.classList.add('hidden');
+            registerForm.classList.remove('hidden');
+            registerTab.classList.add('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
+            registerTab.classList.remove('text-gray-500');
+            loginTab.classList.remove('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
+            loginTab.classList.add('text-gray-500');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('login-tab').addEventListener('click', () => switchTab('login'));
+        document.getElementById('register-tab').addEventListener('click', () => switchTab('register'));
+    });
+
+    function toggleMenu() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+    }
+
+    function switchLanguage(lang) {
+        console.log(`Idioma alterado para: ${lang}`);
+        const select = document.querySelector('select');
+        const flag = select.options[select.selectedIndex].getAttribute('data-flag');
+        select.style.backgroundImage = `url('data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="16">${flag}</text></svg>`)}')`;
+    }
+
+    window.addEventListener('scroll', function() {
+        const navBg = document.getElementById('nav-bg');
+        const scrollPosition = window.scrollY;
+        const navElements = document.querySelectorAll('.nav-logo, .nav-select, .nav-button, .nav-hamburger');
+        
+        if (scrollPosition > 50) {
+            navBg.classList.remove('opacity-0');
+            navBg.classList.add('opacity-100');
+            navElements.forEach(el => {
+                el.classList.remove('text-white');
+                el.classList.add('text-[var(--primary)]');
+            });
+            document.querySelector('.nav-hamburger svg').classList.add('stroke-[var(--primary)]');
+            document.querySelector('.nav-hamburger svg').classList.remove('stroke-white');
+        } else {
+            navBg.classList.add('opacity-0');
+            navBg.classList.remove('opacity-100');
+            navElements.forEach(el => {
+                el.classList.add('text-white');
+                el.classList.remove('text-[var(--primary)]');
+            });
+            document.querySelector('.nav-hamburger svg').classList.add('stroke-white');
+            document.querySelector('.nav-hamburger svg').classList.remove('stroke-[var(--primary)]');
+        }
+    });
+    
+    // Função para o accordion das FAQs
+    function toggleFAQ(index) {
+      const answers = document.querySelectorAll('.faq-answer');
+      answers.forEach((ans, i) => {
+        if (i === index) {
+          ans.classList.toggle('active');
+        } else {
+          ans.classList.remove('active');
+        }
+      });
+    }
+</script>
+</body>
+</html>

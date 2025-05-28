@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórmula Sul - Suporte</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #1986FF;
+            --secondary: #38A169;
+            --accent: #FFC107;
+            --background: #F9FAFB;
+            --text: #333333;
+        }
+        .accordion-content {
+            display: none;
+        }
+        .accordion-content.active {
+            display: block;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .hero {
+            height: 150px;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1504215680853-026ed2a45def?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--text)] font-sans">
+
+<!-- Navbar -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="index.html" class="flex items-center">
+            <!-- Logo -->
+            <img src="/images/logo.png" alt="Fórmula Sul" class="h-8 mr-2">
+            <!-- (Opcional) Nome ao lado do logo -->
+            <span class="text-2xl font-bold text-[var(--primary)]">Fórmula Sul</span>
+          </a>
+        <div class="flex items-center space-x-4 relative">
+            <!-- Botão Voltar e Seletor de Idioma -->
+            <a href="index.html" class="bg-[var(--primary)] text-white px-4 py-2 rounded-md font-semibold hover:bg-[var(--primary)]/90">Voltar à Página Inicial</a>
+            <select class="p-2 rounded-none bg-transparent focus:outline-none focus:ring-0" onchange="switchLanguage(this.value)">
+                <option value="pt" data-flag="🇧🇷">🇧🇷 Português</option>
+                <option value="en" data-flag="🇺🇸">🇺🇸 English</option>
+            </select>
+            <!-- Botão Menu Hamburguer (Mobile) -->
+            <button class="md:hidden text-gray-700 focus:outline-none" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <!-- Menu Dropdown (Mobile) -->
+            <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md py-1 z-50">
+                <a href="#sobre-nos" class="block px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-semibold">Sobre Nós</a>
+                <a href="#faqs" class="block px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-semibold">FAQs</a>
+                <a href="#contacto" class="block px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-semibold">Contacto</a>
+                <a href="#regulamento" class="block px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-semibold">Regulamento</a>
+                <hr class="my-2 border-t border-gray-200">
+                <a href="index.html" class="block px-4 py-2 text-gray-700 hover:bg-[var(--background)]">Voltar à Página Inicial</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="bg-[var(--primary)] py-16 text-white relative">
+    <div class="container mx-auto text-center px-4">
+        <h1 class="text-4xl sm:text-5xl font-bold">Tire todas suas duvidas aqui</h1>
+        <p class="mt-4 text-lg max-w-2xl mx-auto">  
+            fala conosco e tire todas as suas dúvidas sobre aluguel de carros, transfers e passeios turísticos. Estamos aqui para ajudar!
+        </p>
+
+        <!-- Formulário de Transfer -->
+        <form class="bg-white p-6 rounded-lg shadow-md mt-10 max-w-2xl mx-auto text-left text-gray-800">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="destino" class="block font-medium mb-1">Qual é a sua dúvida?</label>
+                    <input type="text" id="destino" placeholder="Digite a duvia aqui..." class="w-full border rounded px-3 py-2">
+            </div>
+            <button type="submit" class="mt-6 w-full bg-[var(--primary)] text-white py-2 rounded hover:bg-blue-700">Pesquisar</button>
+        </form>
+    </div>
+</section>
+
+<!-- Seção Sobre Nós -->
+<section id="sobre-nos" class="py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl text-center">Sobre Nós</h2>
+        <p class="mt-6 text-lg text-gray-600 max-w-3xl mx-auto text-center">
+            A Fórmula Sul é uma empresa dedicada a oferecer soluções de mobilidade com qualidade e confiança. Nossa missão é proporcionar aluguel de carros, transfers e passeios turísticos com disponibilidade instantânea, atendendo às necessidades dos nossos clientes com excelência. Valorizamos a segurança, a pontualidade e a satisfação do cliente em cada serviço prestado.
+        </p>
+    </div>
+</section>
+
+<!-- Seção FAQs -->
+<section id="faqs" class="py-12 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">Perguntas Frequentes</h2>
+        <div class="space-y-4">
+            <div>
+                <button class="accordion-toggle w-full text-left font-semibold text-[var(--primary)] flex justify-between items-center py-3 px-4 bg-white shadow rounded">
+                    Como posso reservar um carro?
+                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="accordion-content bg-white px-4 py-2 text-gray-600 rounded shadow">
+                    Você pode reservar diretamente no nosso site na seção de "Aluguel de Carros" ou entrar em contato via WhatsApp.
+                </div>
+            </div>
+            <div>
+                <button class="accordion-toggle w-full text-left font-semibold text-[var(--primary)] flex justify-between items-center py-3 px-4 bg-white shadow rounded">
+                    Como funciona o serviço de transfer?
+                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="accordion-content bg-white px-4 py-2 text-gray-600 rounded shadow">
+                    Informando seu número de voo e destino, enviaremos um carro até si. A reserva pode ser feita no site ou WhatsApp.
+                </div>
+            </div>
+            <div>
+                <button class="accordion-toggle w-full text-left font-semibold text-[var(--primary)] flex justify-between items-center py-3 px-4 bg-white shadow rounded">
+                    Posso modificar o horário do meu transfer?
+                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="accordion-content bg-white px-4 py-2 text-gray-600 rounded shadow">
+                    Sim, você pode modificar o horário do transfer entrando em contato conosco pelo menos 24 horas antes do horário agendado. Use o formulário acima ou nosso WhatsApp.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Seção Contacto -->
+<section id="contacto" class="py-12">
+    <div class="max-w-4xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">Fale Conosco</h2>
+        <form onsubmit="event.preventDefault();" class="space-y-4">
+            <div class="grid md:grid-cols-2 gap-4">
+                <input type="text" placeholder="Seu nome" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary)]">
+                <input type="email" placeholder="Seu email" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary)]">
+            </div>
+            <textarea placeholder="Sua mensagem..." class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary)] h-32"></textarea>
+            <button type="submit" class="bg-[var(--primary)] text-white px-6 py-2 rounded-md hover:bg-[var(--primary)]/90">Enviar Mensagem</button>
+        </form>
+        <div class="mt-6 text-center text-gray-600">
+            <p>Ou entre em contato diretamente:</p>
+            <p>Email: <a href="mailto:contato@formulasul.com" class="text-[var(--primary)]">contato@formulasul.com</a></p>
+            <p>Telefone: (XX) XXXX-XXXX</p>
+            <p>WhatsApp: <a href="https://wa.me/1234567890" target="_blank" class="text-[var(--primary)]">(XX) XXXXX-XXXX</a></p>
+        </div>
+    </div>
+</section>
+
+<!-- Seção Regulamento -->
+<section id="regulamento" class="py-12 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">Regulamento</h2>
+        <ul class="list-disc list-inside text-gray-700 space-y-2">
+            <li>Todos os motoristas devem possuir carteira de habilitação válida.</li>
+            <li>A reserva só será confirmada após o pagamento antecipado de 50% do valor.</li>
+            <li>Cancelamentos devem ser comunicados com pelo menos 24h de antecedência.</li>
+            <li>Responsabilizamo-nos por alterações ou atrasos mediante aviso prévio.</li>
+            <li>O uso indevido dos veículos implicará em sanções conforme o contrato.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-white py-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-lg font-medium text-gray-900">Fórmula Sul</h3>
+                <p class="mt-2 text-gray-600">A sua escolha para mobilidade com qualidade.</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-medium text-gray-900">Links Rápidos</h3>
+                <ul class="mt-2 space-y-2">
+                    <li><a href="#aluguel" class="text-gray-600 hover:text-gray-900">Aluguel</a></li>
+                    <li><a href="#transfer" class="text-gray-600 hover:text-gray-900">Transfer</a></li>
+                    <li><a href="#passeios" class="text-gray-600 hover:text-gray-900">Passeios</a></li>
+                    <li><a href="https://suporte.formulasul.com" class="text-gray-600 hover:text-gray-900">Suporte</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-medium text-gray-900">Contacto</h3>
+                <p class="mt-2 text-gray-600">Email: contato@formulasul.com</p>
+                <p class="mt-2 text-gray-600">Telefone: (XX) XXXX-XXXX</p>
+                <p class="mt-2 text-gray-600">WhatsApp: (XX) XXXXX-XXXX</p>
+            </div>
+        </div>
+        <p class="mt-8 text-center text-sm text-gray-600">© 2025 Fórmula Sul. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+<script>
+    function switchLanguage(lang) {
+        console.log(`Idioma alterado para: ${lang}`);
+        const select = document.querySelector('select');
+        const flag = select.options[select.selectedIndex].getAttribute('data-flag');
+        select.style.backgroundImage = `url('data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="16">${flag}</text></svg>`)}')`;
+    }
+
+    function toggleMenu() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+    }
+
+    // Função para o accordion das FAQs
+    document.querySelectorAll('.accordion-toggle').forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const isActive = content.classList.contains('active');
+            
+            // Fecha todos os outros accordions
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                item.classList.remove('active');
+                item.previousElementSibling.querySelector('svg').classList.remove('rotate-180');
+            });
+            
+            // Abre ou fecha o accordion clicado
+            if (!isActive) {
+                content.classList.add('active');
+                button.querySelector('svg').classList.add('rotate-180');
+            }
+        });
+    });
+
+    // Ativa a borda no menu single-page conforme a seção visível
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.flex.overflow-x-auto a');
+        
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            if (pageYOffset >= (sectionTop - 150 - 64)) { // Ajuste para altura do hero + navbar
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('border-[var(--primary)]');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('border-[var(--primary)]');
+            }
+        });
+    });
+</script>
+</body>
+</html>
