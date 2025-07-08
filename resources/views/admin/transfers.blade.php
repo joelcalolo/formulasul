@@ -26,6 +26,7 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Origem</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destino</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data/Hora</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pessoas</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ação</th>
@@ -39,9 +40,63 @@
         </div>
     </div>
 </section>
+<!-- Toast Notifications -->
+<div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
 @endsection
 
 @section('scripts')
+<script>
+    // Função para mostrar toast notifications
+    function showToast(message, type = 'info') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'fixed top-4 right-4 z-50 space-y-2';
+            document.body.appendChild(container);
+        }
+        
+        const toast = document.createElement('div');
+        
+        const colors = {
+            success: 'bg-green-500',
+            error: 'bg-red-500',
+            warning: 'bg-yellow-500',
+            info: 'bg-blue-500'
+        };
+        
+        const icons = {
+            success: '✓',
+            error: '✕',
+            warning: '⚠',
+            info: 'ℹ'
+        };
+        
+        toast.className = `${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full opacity-0 flex items-center space-x-2`;
+        toast.innerHTML = `
+            <span class="font-bold">${icons[type]}</span>
+            <span>${message}</span>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Animar entrada
+        setTimeout(() => {
+            toast.classList.remove('translate-x-full', 'opacity-0');
+        }, 100);
+        
+        // Remover após 4 segundos
+        setTimeout(() => {
+            toast.classList.add('translate-x-full', 'opacity-0');
+            setTimeout(() => {
+                if (container.contains(toast)) {
+                    container.removeChild(toast);
+                }
+            }, 300);
+        }, 4000);
+    }
+</script>
 <script>
     // Função para buscar transfers via API
     async function fetchTransfers() {
@@ -60,7 +115,7 @@
             populateTable(transfers);
         } catch (error) {
             console.error('Erro ao buscar transfers:', error);
-            alert('Erro ao carregar solicitações. Verifique sua conexão ou permissões.');
+            showToast('Erro ao carregar solicitações. Verifique sua conexão ou permissões.', 'error');
         }
     }
 
@@ -76,6 +131,7 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${transfer.origem}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${transfer.destino}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${transfer.data_hora}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${transfer.num_pessoas || '-'}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${transfer.tipo}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${transfer.status}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -103,11 +159,11 @@
             if (!response.ok) {
                 throw new Error(data.error || `Erro ${response.status}`);
             }
-            alert('Transfer confirmado com sucesso!');
+            showToast('Transfer confirmado com sucesso!', 'success');
             fetchTransfers(); // Atualiza a tabela
         } catch (error) {
             console.error('Erro ao confirmar transfer:', error);
-            alert(`Erro: ${error.message}`);
+            showToast(`Erro: ${error.message}`, 'error');
         }
     }
 

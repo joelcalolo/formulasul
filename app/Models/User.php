@@ -14,7 +14,8 @@ class User extends Authenticatable
         'email', 
         'password', 
         'role',
-        'phone' // Adicione este campo
+        'phone',
+        'country'
     ];
 
     protected $hidden = [

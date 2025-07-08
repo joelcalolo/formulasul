@@ -4,20 +4,24 @@
 
 @section('content')
 <!-- Hero -->
-<div class="hero flex items-center justify-center text-white">
-    <div class="container mx-auto px-4">
-        <h1 class="text-3xl md:text-4xl font-bold text-center">Formula Sul Suporte</h1>
-        <div class="bg-white py-8 px-4 shadow-md mt-4">
-            <div class="max-w-3xl mx-auto text-center">
-                <h2 class="text-xl font-semibold mb-4 text-gray-700">Está com alguma dúvida?</h2>
-                <form onsubmit="event.preventDefault();" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<!-- Hero com formulário -->
+<section class="bg-[#D0D0FB] text-[#232323] py-20 px-6 bg-cover bg-center relative" style="background-image: url('https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600');">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+  <div class="max-w-6xl mx-auto relative z-10">
+    <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">Descubra os Melhores Passeios com a Fórmula Sul</h1>
+    <p class="text-lg mb-8 text-white">Escolha seu tipo de passeio, data e número de pessoas para encontrar as opções ideais.</p>
+
+    <!-- Pesquisa -->
+    <form onsubmit="event.preventDefault();" class="flex flex-col sm:flex-row items-center justify-center gap-4 bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-lg text-gray-900">
                     <input type="text" placeholder="Pesquise aqui sua dúvida..." class="w-full sm:w-2/3 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary)]">
                     <button type="submit" class="bg-[var(--primary)] text-white px-6 py-2 rounded-md hover:bg-[var(--primary)]/90 transition">Pesquisar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+    </form>
+   
+  </div>
+</section>
+
+
+    
 
 <!-- About Us Section -->
 <section id="sobre-nos" class="py-12">
@@ -53,37 +57,6 @@
     </div>
 </section>
 
-<!-- Contact Section -->
-<section id="contacto" class="py-12">
-    <div class="max-w-4xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-8">Fale Conosco</h2>
-        <form method="POST" action="{{ route('contact.store') }}" class="space-y-4">
-            @csrf
-            <div class="grid md:grid-cols-2 gap-4">
-                <div>
-                    <input type="text" name="name" placeholder="Seu nome" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" required>
-                    @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <input type="email" name="email" placeholder="Seu email" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" required>
-                    @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div class="md:col-span-2">
-                    <textarea name="message" placeholder="Sua mensagem..." class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" rows="5" required></textarea>
-                    @error('message') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-            </div>
-            <button type="submit" class="bg-[var(--primary)] text-white px-6 py-2 rounded-md hover:bg-[var(--primary)]/90">Enviar Mensagem</button>
-        </form>
-        <div class="mt-6 text-center text-gray-600">
-            <p>Ou entre em contato diretamente:</p>
-            <p>Email: <a href="mailto:contato@formulasul.com" class="text-[var(--primary)]">contato@formulasul.com</a></p>
-            <p>Telefone: (XX) XXXX-XXXX</p>
-            <p>WhatsApp: <a href="https://wa.me/1234567890" target="_blank" class="text-[var(--primary)]">(XX) XXXX-XXXX</a></p>
-        </div>
-    </div>
-</section>
-
 <!-- Regulations Section -->
 <section id="regulation" class="py-12 bg-gray-50">
     <div class="max-w-4xl mx-auto px-4">
@@ -97,6 +70,60 @@
         </ul>
     </div>
 </section>
+
+<!-- Contacto -->
+<section class="py-20 bg-gray-100" id="contacto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl font-extrabold tracking-tight text-gray-800 text-center mb-4">Nossa Localização & Contato</h2>
+    <p class="text-lg text-gray-600 text-center max-w-2xl mx-auto mb-12">Visite-nos ou entre em contato para mais informações.</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- Mapa -->
+      <div class="rounded-2xl overflow-hidden shadow-lg">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537353153167!3d-37.81720997975171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0x5045675218ce6e0!2sMelbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sus!4v1611811234567!5m2!1sen!2sus" 
+                width="100%" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+          loading="lazy"
+          class="w-full h-full">
+              </iframe>
+            </div>
+      
+            <!-- Formulário -->
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+              <form>
+          <h3 class="text-2xl font-bold mb-6 text-gray-800">Entre em Contato</h3>
+
+          <div class="mb-5">
+            <label for="contact-name" class="block text-gray-700 font-medium mb-2">Nome</label>
+            <input type="text" id="contact-name" placeholder="Seu Nome"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:outline-none text-gray-800" />
+          </div>
+
+          <div class="mb-5">
+            <label for="contact-email" class="block text-gray-700 font-medium mb-2">E-mail</label>
+            <input type="email" id="contact-email" placeholder="Seu E-mail"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:outline-none text-gray-800" />
+        </div>
+
+          <div class="mb-6">
+            <label for="contact-message" class="block text-gray-700 font-medium mb-2">Mensagem</label>
+            <textarea id="contact-message" rows="5" placeholder="Sua Mensagem"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:outline-none text-gray-800"></textarea>
+        </div>
+
+          <button type="submit"
+            class="w-full bg-[var(--primary)] text-white py-3 px-6 rounded-full font-semibold hover:bg-[var(--primary)]/90 transition-all">
+            Enviar Mensagem
+          </button>
+        </form>
+            </div>
+        </div>
+    </div>
+</section>  
+
 @endsection
 
 @section('scripts')

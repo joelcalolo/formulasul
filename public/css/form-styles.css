@@ -1,0 +1,304 @@
+/* Estilos para formulários da Formula Sul */
+
+/* Animações de transição */
+.form-input {
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(148, 148, 234, 0.15);
+}
+
+/* Estados de validação */
+.form-input.border-red-500 {
+    animation: shake 0.5s ease-in-out;
+}
+
+.form-input.border-green-500 {
+    animation: success-pulse 0.5s ease-in-out;
+}
+
+/* Animações */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* Melhorias na responsividade */
+@media (max-width: 768px) {
+    .tab-btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .form-input {
+        font-size: 16px; /* Evita zoom no iOS */
+    }
+}
+
+/* Loading states */
+.loading-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.loading-text::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Toast notifications */
+.toast-notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    max-width: 400px;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.toast-notification.show {
+    transform: translateX(0);
+}
+
+.toast-notification.success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.toast-notification.error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.toast-notification.info {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+}
+
+/* Melhorias nos botões */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), #7c7cd6);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #7c7cd6, var(--primary));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(148, 148, 234, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Melhorias nos campos de data */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: var(--primary);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    background-color: var(--primary);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Melhorias nos selects */
+select.form-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+/* Melhorias nos placeholders */
+.form-input::placeholder {
+    color: #9ca3af;
+    transition: color 0.3s ease;
+}
+
+.form-input:focus::placeholder {
+    color: #d1d5db;
+}
+
+/* Melhorias na acessibilidade */
+.form-input:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Melhorias nos labels */
+label {
+    font-weight: 500;
+    color: #374151;
+    transition: color 0.3s ease;
+}
+
+.form-input:focus + label,
+.form-input:not(:placeholder-shown) + label {
+    color: var(--primary);
+}
+
+/* Melhorias nos erros */
+.error-message {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Melhorias na responsividade do formulário */
+@media (max-width: 640px) {
+    .form-container {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+    
+    .tab-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .tab-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Melhorias no layout das datas */
+.date-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .date-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Melhorias nos campos de número */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+    background: var(--primary);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Melhorias nos textareas */
+textarea.form-input {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Melhorias nos campos de telefone */
+input[type="tel"] {
+    font-family: monospace;
+    letter-spacing: 0.5px;
+}
+
+/* Melhorias nos campos de email */
+input[type="email"] {
+    text-transform: lowercase;
+}
+
+/* Melhorias na validação visual */
+.form-input:invalid:not(:placeholder-shown) {
+    border-color: #ef4444;
+}
+
+.form-input:valid:not(:placeholder-shown) {
+    border-color: #10b981;
+}
+
+/* Melhorias no foco */
+.form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(148, 148, 234, 0.1);
+}
+
+/* Melhorias no hover */
+.form-input:hover:not(:focus) {
+    border-color: #d1d5db;
+}
+
+/* Melhorias no disabled */
+.form-input:disabled {
+    background-color: #f9fafb;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+/* Melhorias nos botões disabled */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Melhorias na acessibilidade do foco */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Melhorias no contraste */
+@media (prefers-contrast: high) {
+    .form-input {
+        border-width: 2px;
+    }
+    
+    .error-message {
+        font-weight: bold;
+    }
+}
+
+/* Melhorias para usuários que preferem movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+    .form-input,
+    .btn-primary,
+    .toast-notification {
+        transition: none;
+    }
+    
+    .form-input.border-red-500,
+    .form-input.border-green-500 {
+        animation: none;
+    }
+} 

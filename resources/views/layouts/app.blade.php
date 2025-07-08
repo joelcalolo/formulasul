@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formula Sul - @yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+    
+    <title>@yield('title', 'Formula Sul')</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('public/images/favicon.ico') }}">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/car-gallery.css') }}">
     <style>
         :root {
-            --primary: #1986FF;
-            --secondary: #38A169;
-            --accent: #FFC107;
+            --primary:rgb(148, 148, 234);
+            --secondary: #232323;
+            --accent: #E8E8FF;
             --background: #F9FAFB;
-            --text: #333333;
+            --text: #232323;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
         .accordion-content {
             display: none;
@@ -24,85 +35,102 @@
         }
         .hero {
             height: 150px;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1504215680853-026ed2a45def?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background: linear-gradient(rgba(35, 35, 35, 0.7), rgba(35, 35, 35, 0.7)), url('https://images.unsplash.com/photo-1504215680853-026ed2a45def?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
         }
     </style>
 </head>
-<body class="bg-gray-100">
-<!-- Navbar -->
-<nav class="bg-white shadow-md sticky top-0 z-50">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <a href="{{ route('home') }}" class="flex items-center">
+<body class="bg-gray-50 text-gray-800">
+<!-- Navbar moderna com login e idioma -->
+<header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
             <!-- Logo -->
-            <img src="/images/logo.png" alt="Fórmula Sul" class="h-8 mr-2">
-            <!-- (Opcional) Nome ao lado do logo -->
-            <span class="text-2xl font-bold text-[var(--primary)]">Fórmula Sul</span>
-          </a>
-        <ul class="hidden md:flex space-x-6">
-            <li><a href="#inicio" class="text-gray-700 hover:text-[var(--primary)]">Início</a></li>
-            <li><a href="#sobre" class="text-gray-700 hover:text-[var(--primary)]">Sobre Nós</a></li>
-            <li><a href="#frota" class="text-gray-700 hover:text-[var(--primary)]">Frota</a></li>
-            <li><a href="#servicos" class="text-gray-700 hover:text-[var(--primary)]">Serviços</a></li>
-            <li><a href="#contacto" class="text-gray-700 hover:text-[var(--primary)]">Contacto</a></li>
-        </ul>
-        
-        <!-- Botões Login, Idioma e Menu Hamburguer -->
-        <div class="flex items-center space-x-4 relative"> <!-- Adicionei relative aqui -->
-            @auth
-                <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-[var(--primary)] font-semibold">Dashboard</a>
-                <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="bg-[var(--primary)] text-white px-4 py-2 rounded-md hover:bg-[var(--primary)]/90">Logout</button>
-                    </form>
-                @else
-                    <button class="bg-[var(--primary)] text-white px-4 py-2 rounded-md hover:bg-[var(--primary)]/90" onclick="openModal()">Login</button>
-                @endauth
-            <select class="p-2 rounded-none bg-transparent focus:outline-none focus:ring-0" onchange="switchLanguage(this.value)">
-                <option value="pt" data-flag="🇧🇷">🇧🇷 Português</option>
-                <option value="en" data-flag="🇺🇸">🇺🇸 English</option>
-            </select>
-            <!-- Menu Hamburguer (PC e Mobile) -->
-            <button class="text-gray-700 focus:outline-none" onclick="toggleMenu()">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
-            
-            <!-- Menu Mobile - Agora como dropdown -->
-            <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md py-1 z-50">
-                <a href="{{ route('cars.index') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-bold">
-                    <svg class="w-5 h-5 mr-2 text-[var(--primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13h2l1-5h13l1 5h2m-3 0v6a2 2 0 01-2 2h-4a2 2 0 01-2-2v-6m-4 0v6a2 2 0 002 2h4a2 2 0 002-2v-6"></path>
-                    </svg>
-                    Aluguel
-                </a>
-                <a href="{{ route('transfers.index') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-bold">
-                    <svg class="w-5 h-5 mr-2 text-[var(--primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6h-6V8zm-6 0H7a2 2 0 00-2 2v6h6V8zm-6 8v2a1 1 0 001 1h12a1 1 0 001-1v-2"></path>
-                    </svg>
-                    Transfer
-                </a>
-                <a href="{{ route('passeios') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-[var(--background)] font-bold">
-                    <svg class="w-5 h-5 mr-2 text-[var(--primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12A9 9 0 113 12a9 9 0 0118 0zm-6-2l-4 4m0 0l-4-4m4 4V8"></path>
-                    </svg>
-                    Passeios Turísticos
-                </a>
-            
-                <hr class="my-2 border-t border-gray-200">
-            
-                <a href="{{ route('suporte') }}" target="_blank" class="block px-4 py-2 text-gray-700 hover:bg-[var(--background)]">Suporte</a>
-                <a href="conta.html" class="block px-4 py-2 text-gray-700 hover:bg-[var(--background)]">Conta</a>
+            <a href="{{ route('home') }}" class="flex items-center space-x-2">
+                <img src="{{ asset('images/logo.png') }}" alt="Fórmula Sul" class="h-8 w-auto">
+            </a>
+
+            <!-- Menu principal -->
+            <nav class="hidden md:flex space-x-6">
+                <a href="{{ route('home') }}" class="text-gray-700 hover:text-[var(--primary)] font-medium">Home</a>
+                <a href="{{ route('cars.index') }}" class="text-gray-700 hover:text-[var(--primary)] font-medium">Catálogo</a>
+                <a href="{{ route('passeios.index') }}" class="text-gray-700 hover:text-[var(--primary)] font-medium">Passeios</a>
+                <a href="{{ route('suporte') }}" class="text-gray-700 hover:text-[var(--primary)] font-medium">Suporte</a>
+                <a href="{{ route('contact') }}" class="text-gray-700 hover:text-[var(--primary)] font-medium">Contacto</a>
+            </nav>
+
+            <!-- Ações: Login + Idioma -->
+            <div class="flex items-center space-x-4">
+
+
+            <!-- Social Media Icons -->
+    <div class="hidden md:flex items-center space-x-3 ml-4">
+        <a href="https://facebook.com/formulasul" target="_blank" class="text-blue-600 hover:text-blue-800 text-lg">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://instagram.com/formulasul" target="_blank" class="text-pink-500 hover:text-pink-700 text-lg">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </div>
+
+                <!-- Seletor de idioma -->
+                <select class="text-sm bg-transparent border border-gray-300 rounded p-1 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" onchange="switchLanguage(this.value)">
+                    <option value="pt">🇧🇷 PT</option>
+                    <option value="en">🇺🇸 EN</option>
+                </select>
+                @auth
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-[var(--primary)]">
+                        <div class="w-8 h-8 rounded-full bg-[var(--primary)] flex items-center justify-center text-white">
+                            {{ substr(Auth::user()->name, 0, 1) }}
+                        </div>
+                        
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Dropdown Menu -->
+                    <div x-show="open" 
+                         @click.away="open = false"
+                         class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user-circle mr-2"></i> Meu Perfil
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Sair
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <button onclick="openModal()" class="px-4 py-1 bg-[var(--primary)] text-white rounded hover:bg-[var(--primary)]/90 text-sm">Login</button>
+            @endauth
             </div>
-            
         </div>
     </div>
-</nav>
+</header>
+
+@if(session('success'))
+    <div class="max-w-2xl mx-auto mt-6">
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative text-center" role="alert">
+            <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+    </div>
+@endif
+@if(session('error'))
+    <div class="max-w-2xl mx-auto mt-6">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">
+            <span class="block sm:inline">{{ session('error') }}</span>
+        </div>
+    </div>
+@endif
 
     <!-- Auth Modal -->
-    <div id="auth-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div id="auth-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
         <div class="modal-content bg-white rounded-lg w-full max-w-md mx-4 p-6 relative">
             <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700" onclick="closeModal()">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,53 +141,105 @@
                 <button id="login-tab" class="flex-1 py-4 font-medium text-[var(--primary)] border-b-2 border-[var(--primary)]" onclick="switchTab('login')">Login</button>
                 <button id="register-tab" class="flex-1 py-4 font-medium text-gray-500" onclick="switchTab('register')">Cadastro</button>
             </div>
+            
+            <!-- Container para mensagens de erro/sucesso -->
+            <div id="auth-messages" class="p-4 hidden">
+                <!-- Mensagens serão inseridas aqui via JavaScript -->
+            </div>
+            
             <div id="login-form" class="p-6">
                 <h2 class="text-2xl font-bold text-[var(--primary)] mb-6">Login</h2>
-                <form method="POST" action="{{ route('login') }}">
+                <form id="login-form-element" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="login-email">E-mail</label>
-                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" id="login-email" type="email" name="email" placeholder="Seu E-mail" required>
-                        @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" 
+                               id="login-email" type="email" name="email" placeholder="Seu E-mail" required>
+                        <div id="login-email-error" class="text-red-500 text-sm mt-1 hidden"></div>
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="login-password">Senha</label>
-                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" id="login-password" type="password" name="password" placeholder="Sua Senha" required>
-                        @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" 
+                               id="login-password" type="password" name="password" placeholder="Sua Senha" required>
+                        <div id="login-password-error" class="text-red-500 text-sm mt-1 hidden"></div>
+                        <div class="mt-2 text-right">
+                            <a href="{{ route('password.request') }}" class="text-sm text-[var(--primary)] hover:text-[var(--primary)]/90">
+                                Esqueceu sua senha?
+                            </a>
+                        </div>
                     </div>
-                    <button class="w-full bg-[var(--primary)] text-white py-2 rounded-md hover:bg-[var(--primary)]/90" type="submit">Entrar</button>
+                    <button id="login-submit" class="w-full bg-[var(--primary)] text-white py-2 rounded hover:bg-[var(--primary)]/90 flex items-center justify-center" type="submit">
+                        <span id="login-submit-text">Entrar</span>
+                        <div id="login-loading" class="loading-spinner ml-2 hidden"></div>
+                    </button>
                     <p class="mt-4 text-center text-sm text-gray-600">Não tem conta? <a href="#" class="text-[var(--primary)] font-medium" onclick="switchTab('register')">Cadastre-se</a></p>
                 </form>
             </div>
+            
             <div id="register-form" class="hidden p-6">
                 <h2 class="text-2xl font-bold text-[var(--primary)] mb-6">Criar Conta</h2>
-                <form method="POST" action="{{ route('register') }}">
+                <form id="register-form-element" method="POST" action="{{ route('register') }}">
                     @csrf
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="register-name">Nome Completo</label>
-                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" id="register-name" type="text" name="name" placeholder="Seu Nome" required>
-                        @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" 
+                               id="register-name" type="text" name="name" placeholder="Seu Nome" required>
+                        <div id="register-name-error" class="text-red-500 text-sm mt-1 hidden"></div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="register-email">E-mail</label>
-                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" id="register-email" type="email" name="email" placeholder="Seu E-mail" required>
-                        @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" 
+                               id="register-email" type="email" name="email" placeholder="Seu E-mail" required>
+                        <div id="register-email-error" class="text-red-500 text-sm mt-1 hidden"></div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="register-country">País</label>
+                        <select class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" 
+                                id="register-country" name="country" required>
+                            <option value="">Selecione um país</option>
+                            <option value="AO" selected>🇦🇴 Angola</option>
+                            <option value="PT">🇵🇹 Portugal</option>
+                            <option value="ZA">🇿🇦 África do Sul</option>
+                            <option value="NA">🇳🇦 Namíbia</option>
+                            <option value="BR">🇧🇷 Brasil</option>
+                            <option value="US">🇺🇸 Estados Unidos</option>
+                            <option value="CA">🇨🇦 Canadá</option>
+                            <option value="MZ">🇲🇿 Moçambique</option>
+                            <option value="CV">🇨🇻 Cabo Verde</option>
+                            <option value="ST">🇸🇹 São Tomé e Príncipe</option>
+                            <option value="GW">🇬🇼 Guiné-Bissau</option>
+                            <option value="GQ">🇬🇶 Guiné Equatorial</option>
+                        </select>
+                        <div id="register-country-error" class="text-red-500 text-sm mt-1 hidden"></div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="register-phone">Telefone</label>
-                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" id="register-phone" type="tel" name="phone" placeholder="Seu Telefone">
-                        @error('phone') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" 
+                               id="register-phone" type="tel" name="phone" placeholder="Seu telefone" required>
+                        <div id="register-phone-error" class="text-red-500 text-sm mt-1 hidden"></div>
+                        <div class="mt-1 text-xs text-gray-500" id="phone-format-hint">
+                            Formato: (999) 999-999
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="register-password">Senha</label>
-                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" id="register-password" type="password" name="password" placeholder="Crie uma Senha" required>
-                        @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" 
+                               id="register-password" type="password" name="password" placeholder="Crie uma Senha" required>
+                        <div id="register-password-error" class="text-red-500 text-sm mt-1 hidden"></div>
+                        <div class="mt-1 text-xs text-gray-500">
+                            A senha deve conter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e símbolos.
+                        </div>
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="register-confirm">Confirme a Senha</label>
-                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" id="register-confirm" type="password" name="password_confirmation" placeholder="Confirme sua Senha" required>
+                        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" 
+                               id="register-confirm" type="password" name="password_confirmation" placeholder="Confirme sua Senha" required>
+                        <div id="register-confirm-error" class="text-red-500 text-sm mt-1 hidden"></div>
                     </div>
-                    <button class="w-full bg-[var(--primary)] text-white py-2 rounded-md hover:bg-[var(--primary)]/90" type="submit">Cadastrar</button>
+                    <button id="register-submit" class="w-full bg-[var(--primary)] text-white py-2 rounded hover:bg-[var(--primary)]/90 flex items-center justify-center" type="submit">
+                        <span id="register-submit-text">Cadastrar</span>
+                        <div id="register-loading" class="loading-spinner ml-2 hidden"></div>
+                    </button>
                     <p class="mt-4 text-center text-sm text-gray-600">Já tem conta? <a href="#" class="text-[var(--primary)] font-medium" onclick="switchTab('login')">Faça login</a></p>
                 </form>
             </div>
@@ -167,47 +247,57 @@
     </div>
 
     <!-- Main Content -->
+    <main>
     @yield('content')
+    </main>
 
     <!-- WhatsApp Button -->
-    <a href="https://wa.me/1234567890" target="_blank" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.096.548 4.069 1.5 5.794L0 24l6.314-1.5A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22.071c-1.752 0-3.437-.448-4.932-1.291l-.345 1.31 1.31-.345A11.932 11.932 0 011.929 12C1.929 6.546 6.546 1.929 12 1.929s10.071 4.617 10.071 10.071-4.617 10.071-10.071 10.071zm4.828-7.485c-.234-.117-1.38-.682-1.595-.758-.215-.077-.372-.117-.528.117-.156.234-.608.758-.745.915-.137.156-.274.176-.508.059-.234-.117-.99-.366-1.884-1.17-.694-.624-1.164-1.396-1.3-1.63-.137-.234-.015-.36.103-.477.105-.105.234-.273.352-.41.117-.137.156-.234.234-.39.078-.156.039-.293-.02-.41-.058-.117-.528-1.288-.724-1.762-.195-.47-.39-.41-.528-.416-.137-.006-.293-.006-.45-.006-.156 0-.41.058-.625.293-.215.234-.82.8-.82 1.95 0 1.15.82 2.26.936 2.417.117.156 1.617 2.47 3.917 3.464.55.237 1.02.38 1.37.485.575.17 1.1.146 1.513.09.46-.063.89-.325 1.14-.64.25-.315.25-.585.215-.64-.035-.055-.117-.088-.234-.146z"/>
-        </svg>
+    <a href="https://wa.me/+244953429189" target="_blank" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition">
+        <i class="fab fa-whatsapp text-2xl"></i>
     </a>
 
+
     <!-- Footer -->
-    <footer class="bg-white shadow mt-12 py-6">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <footer class="bg-white border-t py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">Formula Sul</h3>
+                    <img src="{{ asset('images/logo.png') }}" alt="Fórmula Sul" class="h-12 w-auto mt-2">
                     <p class="mt-2 text-gray-600">A sua escolha para mobilidade com qualidade.</p>
                 </div>
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">Links Rápidos</h3>
                     <ul class="mt-2 space-y-2">
-                        <li><a href="{{ route('cars.index') }}" class="text-gray-600 hover:text-gray-900">Aluguel</a></li>
-                        <li><a href="{{ route('transfers.index') }}" class="text-gray-600 hover:text-gray-900">Transfer</a></li>
-                        <li><a href="{{ route('passeios') }}" class="text-gray-600 hover:text-gray-900">Passeios</a></li>
-                        <li><a href="{{ route('suporte') }}" class="text-gray-600 hover:text-gray-900">Suporte</a></li>
+                        <li><a href="{{ route('home') }}" class="text-gray-600 hover:text-[var(--primary)]">Home</a></li>
+                        <li><a href="{{ route('cars.index') }}" class="text-gray-600 hover:text-[var(--primary)]">Catálogo</a></li>
+                        <li><a href="{{ route('passeios.index') }}" class="text-gray-600 hover:text-[var(--primary)]">Passeios</a></li>
+                        <li><a href="{{ route('suporte') }}" class="text-gray-600 hover:text-[var(--primary)]">Suporte</a></li>
+                        <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-[var(--primary)]">Contacto</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">Contacto</h3>
                     <p class="mt-2 text-gray-600">Email: <a href="mailto:contato@formulasul.com" class="text-[var(--primary)]">contato@formulasul.com</a></p>
-                    <p class="mt-2 text-gray-600">Telefone: (XX) XXXX-XXXX</p>
-                    <p class="mt-2 text-gray-600">WhatsApp: <a href="https://wa.me/1234567890" class="text-[var(--primary)]">(XX) XXXX-XXXX</a></p>
+                    <p class="mt-2 text-gray-600">Telefone: +244 953 42 9189</p>
+                    <p class="mt-2 text-gray-600">WhatsApp: <a href="https://wa.me/+244953429189" class="text-[var(--primary)]">+244 953 42 9189</a></p>
                 </div>
             </div>
-            <p class="mt-8 text-center text-sm text-gray-600">&copy; 2025 Formula Sul. Todos os direitos reservados.</p>
+            <p class="mt-8 text-center text-sm text-gray-600">&copy; {{ date('Y') }} Formula Sul. Todos os direitos reservados.</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+    <script src="{{ asset('js/notifications.js') }}"></script>
+    <script src="{{ asset('js/auth-modal.js') }}"></script>
+    <script src="{{ asset('js/car-gallery.js') }}"></script>
+    <script src="{{ asset('js/form-validation.js') }}"></script>
+    @stack('scripts')
     <script>
+        // Auth Modal Functions
         function openModal() {
             document.getElementById('auth-modal').classList.remove('hidden');
-            switchTab('login');
         }
 
         function closeModal() {
@@ -215,38 +305,28 @@
         }
 
         function switchTab(tab) {
-            const loginForm = document.getElementById('login-form');
-            const registerForm = document.getElementById('register-form');
             const loginTab = document.getElementById('login-tab');
             const registerTab = document.getElementById('register-tab');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
 
             if (tab === 'login') {
+                loginTab.classList.add('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
+                registerTab.classList.remove('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
                 loginForm.classList.remove('hidden');
                 registerForm.classList.add('hidden');
-                loginTab.classList.add('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
-                loginTab.classList.remove('text-gray-500');
-                registerTab.classList.remove('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
-                registerTab.classList.add('text-gray-500');
             } else {
-                loginForm.classList.add('hidden');
-                registerForm.classList.remove('hidden');
                 registerTab.classList.add('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
-                registerTab.classList.remove('text-gray-500');
                 loginTab.classList.remove('text-[var(--primary)]', 'border-b-2', 'border-[var(--primary)]');
-                loginTab.classList.add('text-gray-500');
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
             }
         }
 
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
+        // Language Switch
         function switchLanguage(lang) {
-            console.log(`Idioma alterado para: ${lang}`);
-            // Implement language switch logic (e.g., reload page with lang parameter)
+            console.log('Switching to:', lang);
         }
     </script>
-    @yield('scripts')
 </body>
 </html>

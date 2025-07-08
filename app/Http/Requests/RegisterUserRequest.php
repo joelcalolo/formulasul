@@ -27,7 +27,8 @@ class RegisterUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
-            'phone' => ['required', 'string', 'max:15', 'regex:/^\(\d{2}\)\s?(?:9)?\d{4}-\d{4}$/'],
+            'phone' => ['required', 'string', 'max:25'],
+            'country' => ['required', 'string', 'in:AO,PT,ZA,NA,BR,US,CA,MZ,CV,ST,GW,GQ'],
             'role' => ['sometimes', 'in:cliente,admin'],
         ];
     }
@@ -49,7 +50,8 @@ class RegisterUserRequest extends FormRequest
             'password.regex' => 'A senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais.',
             'password.confirmed' => 'A confirmação da senha não coincide.',
             'phone.required' => 'O campo telefone é obrigatório.',
-            'phone.regex' => 'O telefone deve estar no formato (XX) XXXX-XXXX ou (XX) 9XXXX-XXXX.',
+            'country.required' => 'O campo país é obrigatório.',
+            'country.in' => 'País selecionado não é válido.',
             'role.in' => 'A função deve ser "cliente" ou "admin".',
         ];
     }
@@ -61,15 +63,6 @@ class RegisterUserRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        // Normalizar telefone (remover espaços extras, formatar)
-        if ($this->has('phone')) {
-            $phone = preg_replace('/\D/', '', $this->phone); // Apenas números
-            if (strlen($phone) === 11) {
-                $phone = sprintf('(%s) %s-%s', substr($phone, 0, 2), substr($phone, 2, 5), substr($phone, 7));
-            } elseif (strlen($phone) === 10) {
-                $phone = sprintf('(%s) %s-%s', substr($phone, 0, 2), substr($phone, 2, 4), substr($phone, 6));
-            }
-            $this->merge(['phone' => $phone]);
-        }
+        // Não fazer validação customizada aqui, deixar para o método rules()
     }
 }

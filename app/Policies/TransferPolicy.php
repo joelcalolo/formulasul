@@ -51,4 +51,12 @@ class TransferPolicy
     {
         return $user->role === 'admin';
     }
+
+    /**
+     * Determina se o usuário pode acessar funções administrativas de transfer
+     */
+    public function admin(User $user)
+    {
+        return $user->role === 'admin';
+    }
 }

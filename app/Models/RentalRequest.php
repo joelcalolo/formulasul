@@ -20,6 +20,7 @@ class RentalRequest extends Model
         'observacoes',
         'status',
         'email_enviado',
+        'reject_reason',
     ];
 
     protected $dates = ['data_inicio', 'data_fim']; // Converte automaticamente para Carbon
@@ -30,6 +31,11 @@ class RentalRequest extends Model
     }
 
     public function car()
+    {
+        return $this->belongsTo(Car::class, 'carro_principal_id');
+    }
+
+    public function carroPrincipal()
     {
         return $this->belongsTo(Car::class, 'carro_principal_id');
     }

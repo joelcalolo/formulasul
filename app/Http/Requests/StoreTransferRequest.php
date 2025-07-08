@@ -30,6 +30,8 @@ class StoreTransferRequest extends FormRequest
             'data_hora' => ['required', 'date', 'after:now'],
             'tipo' => ['required', 'in:transfer,passeio'],
             'observacoes' => ['nullable', 'string', 'max:1000'],
+            'flight_number' => ['required', 'string', 'max:20'],
+            'num_pessoas' => ['required', 'integer', 'min:1', 'max:50'],
         ];
     }
 
@@ -47,6 +49,11 @@ class StoreTransferRequest extends FormRequest
             'data_hora.after' => 'A data e hora devem ser futuras.',
             'tipo.in' => 'O tipo deve ser "transfer" ou "passeio".',
             'observacoes.max' => 'As observações não podem exceder 1000 caracteres.',
+            'flight_number.max' => 'O número do voo não pode exceder 20 caracteres.',
+            'num_pessoas.required' => 'O campo número de pessoas é obrigatório.',
+            'num_pessoas.integer' => 'O campo número de pessoas deve ser um número inteiro.',
+            'num_pessoas.min' => 'O número de pessoas deve ser no mínimo 1.',
+            'num_pessoas.max' => 'O número de pessoas deve ser no máximo 50.',
         ];
     }
 

@@ -21,7 +21,7 @@
                         <select name="carro_principal_id" id="carro_principal_id" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" required>
                             <option value="">Selecione um carro</option>
                             @foreach($availableCars as $car)
-                                <option value="{{ $car->id }}">{{ $car->modelo }} - {{ $car->categoria }}</option>
+                                <option value="{{ $car->id }}">{{ $car->marca }} {{ $car->modelo }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -31,7 +31,7 @@
                         <select name="carro_secundario_id" id="carro_secundario_id" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary)]">
                             <option value="">Nenhum</option>
                             @foreach($availableCars as $car)
-                                <option value="{{ $car->id }}">{{ $car->modelo }} - {{ $car->categoria }}</option>
+                                <option value="{{ $car->id }}">{{ $car->marca }} {{ $car->modelo }}</option>
                             @endforeach
                         </select>
                     </div>
