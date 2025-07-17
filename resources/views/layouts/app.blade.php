@@ -49,9 +49,10 @@
             <!-- Logo -->
             <a href="{{ route('home') }}" class="flex items-center space-x-2">
                 <img src="{{ asset('images/logo.png') }}" alt="Fórmula Sul" class="h-8 w-auto">
+                <img src="{{ asset('images/europcar-logo.png') }}" alt="Europcar" class="h-6 ml-2" style="height: 24px; width: auto;"/>
             </a>
 
-            <!-- Menu principal -->
+            <!-- Menu principal (desktop) -->
             <nav class="hidden md:flex space-x-6">
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-[var(--primary)] font-medium">Home</a>
                 <a href="{{ route('cars.index') }}" class="text-gray-700 hover:text-[var(--primary)] font-medium">Catálogo</a>
@@ -60,20 +61,17 @@
                 <a href="{{ route('contact') }}" class="text-gray-700 hover:text-[var(--primary)] font-medium">Contacto</a>
             </nav>
 
-            <!-- Ações: Login + Idioma -->
+            <!-- Ações: Login + Idioma + Social + Menu Hamburguer -->
             <div class="flex items-center space-x-4">
-
-
-            <!-- Social Media Icons -->
-    <div class="hidden md:flex items-center space-x-3 ml-4">
-        <a href="https://facebook.com/formulasul" target="_blank" class="text-blue-600 hover:text-blue-800 text-lg">
-            <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://instagram.com/formulasul" target="_blank" class="text-pink-500 hover:text-pink-700 text-lg">
-            <i class="fab fa-instagram"></i>
-        </a>
-    </div>
-
+                <!-- Social Media Icons (desktop) -->
+                <div class="hidden md:flex items-center space-x-3 ml-4">
+                    <a href="https://facebook.com/formulasul" target="_blank" class="text-blue-600 hover:text-blue-800 text-lg">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com/formulasul" target="_blank" class="text-pink-500 hover:text-pink-700 text-lg">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
                 <!-- Seletor de idioma -->
                 <select class="text-sm bg-transparent border border-gray-300 rounded p-1 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" onchange="switchLanguage(this.value)">
                     <option value="pt">🇧🇷 PT</option>
@@ -85,12 +83,10 @@
                         <div class="w-8 h-8 rounded-full bg-[var(--primary)] flex items-center justify-center text-white">
                             {{ substr(Auth::user()->name, 0, 1) }}
                         </div>
-                        
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                    
                     <!-- Dropdown Menu -->
                     <div x-show="open" 
                          @click.away="open = false"
@@ -106,13 +102,48 @@
                         </form>
                     </div>
                 </div>
-            @else
+                @else
                 <button onclick="openModal()" class="px-4 py-1 bg-[var(--primary)] text-white rounded hover:bg-[var(--primary)]/90 text-sm">Login</button>
-            @endauth
+                @endauth
+                <!-- Botão Hamburguer (apenas mobile) -->
+                <button id="menu-toggle" class="block md:hidden text-gray-700 focus:outline-none p-2" type="button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
+    <!-- Menu Mobile -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-white z-50 flex flex-col items-center justify-center md:hidden">
+        <!-- Botão de fechar -->
+        <button onclick="closeMobileMenu()" class="absolute top-4 right-4 text-gray-700 text-3xl focus:outline-none" aria-label="Fechar menu">
+            &times;
+        </button>
+        <a href="{{ route('home') }}" class="block px-4 py-4 text-gray-700 text-xl font-bold w-full text-center hover:bg-[var(--background)]" onclick="closeMobileMenu()">Home</a>
+        <a href="{{ route('cars.index') }}" class="block px-4 py-4 text-gray-700 text-xl font-bold w-full text-center hover:bg-[var(--background)]" onclick="closeMobileMenu()">Catálogo</a>
+        <a href="{{ route('passeios.index') }}" class="block px-4 py-4 text-gray-700 text-xl font-bold w-full text-center hover:bg-[var(--background)]" onclick="closeMobileMenu()">Passeios</a>
+        <a href="{{ route('suporte') }}" class="block px-4 py-4 text-gray-700 text-xl font-bold w-full text-center hover:bg-[var(--background)]" onclick="closeMobileMenu()">Suporte</a>
+        <a href="{{ route('contact') }}" class="block px-4 py-4 text-gray-700 text-xl font-bold w-full text-center hover:bg-[var(--background)]" onclick="closeMobileMenu()">Contacto</a>
+        <hr class="my-2 border-t border-gray-200 w-3/4">
+        <a href="https://facebook.com/formulasul" target="_blank" class="block px-4 py-4 text-blue-600 w-full text-center hover:bg-[var(--background)]" onclick="closeMobileMenu()"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="https://instagram.com/formulasul" target="_blank" class="block px-4 py-4 text-pink-500 w-full text-center hover:bg-[var(--background)]" onclick="closeMobileMenu()"><i class="fab fa-instagram"></i> Instagram</a>
+    </div>
 </header>
+<script>
+    function closeMobileMenu() {
+        document.getElementById('mobile-menu').classList.add('hidden');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('mobile-menu');
+        if (toggle && menu) {
+            toggle.addEventListener('click', function() {
+                menu.classList.toggle('hidden');
+            });
+        }
+    });
+</script>
 
 @if(session('success'))
     <div class="max-w-2xl mx-auto mt-6">
@@ -264,6 +295,7 @@
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">Formula Sul</h3>
                     <img src="{{ asset('images/logo.png') }}" alt="Fórmula Sul" class="h-12 w-auto mt-2">
+                    <img src="{{ asset('images/europcar-logo.png') }}" alt="Europcar" class="h-6 mt-2" style="height: 24px; width: auto;"/>
                     <p class="mt-2 text-gray-600">A sua escolha para mobilidade com qualidade.</p>
                 </div>
                 <div>
@@ -278,8 +310,8 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">Contacto</h3>
-                    <p class="mt-2 text-gray-600">Email: <a href="mailto:contato@formulasul.com" class="text-[var(--primary)]">contato@formulasul.com</a></p>
-                    <p class="mt-2 text-gray-600">Telefone: +244 953 42 9189</p>
+                    <p class="mt-2 text-gray-600">Email: <a href="mailto:formulasul.cars@gmail.com" class="text-[var(--primary)]">formulasul.cars@gmail.com</a></p>
+                    <p class="mt-2 text-gray-600">Telefone: +244 949 413 851</p>
                     <p class="mt-2 text-gray-600">WhatsApp: <a href="https://wa.me/+244953429189" class="text-[var(--primary)]">+244 953 42 9189</a></p>
                 </div>
             </div>

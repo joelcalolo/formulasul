@@ -32,6 +32,37 @@
     100% { transform: scale(1); }
 }
 
+/* ====== Ajuste global para inputs e botões responsivos ====== */
+.form-input, input[type="text"], input[type="date"], input[type="number"], input[type="email"], input[type="password"], select, textarea {
+  padding: 0.5rem 0.75rem;      /* py-2 px-3 */
+  font-size: 1rem;              /* text-base */
+  border-radius: 0.375rem;      /* rounded-md */
+}
+
+@media (min-width: 640px) { /* sm: */
+  .form-input, input[type="text"], input[type="date"], input[type="number"], input[type="email"], input[type="password"], select, textarea {
+    padding: 0.75rem 1rem;      /* py-3 px-4 */
+    font-size: 1.125rem;        /* text-lg */
+    border-radius: 0.5rem;      /* rounded-lg */
+  }
+}
+
+button, .btn {
+  padding: 0.5rem 0.75rem;      /* py-2 px-3 */
+  font-size: 1rem;              /* text-base */
+  border-radius: 0.375rem;      /* rounded-md */
+}
+
+@media (min-width: 640px) { /* sm: */
+  button, .btn {
+    padding: 0.75rem 1.5rem;    /* py-3 px-6 */
+    font-size: 1.125rem;        /* text-lg */
+    border-radius: 0.5rem;      /* rounded-lg */
+  }
+}
+
+/* ====== Fim do ajuste global ====== */
+
 /* Melhorias na responsividade */
 @media (max-width: 768px) {
     .tab-btn {

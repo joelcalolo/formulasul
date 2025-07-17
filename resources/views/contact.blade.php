@@ -36,7 +36,16 @@
                         </div>
                         <div class="ml-4">
                             <h3 class="text-lg font-medium text-gray-900">Telefone</h3>
-                            <p class="mt-1 text-gray-600">+244 953 429 189</p>
+                            <p class="mt-1 text-gray-600">+244 949 413 851</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fab fa-whatsapp text-[var(--primary)] text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-lg font-medium text-gray-900">WhatsApp</h3>
+                            <p class="mt-1 text-gray-600">+244 953 42 9189</p>
                         </div>
                     </div>
                     <div class="flex items-start">
@@ -45,7 +54,7 @@
                         </div>
                         <div class="ml-4">
                             <h3 class="text-lg font-medium text-gray-900">Email</h3>
-                            <p class="mt-1 text-gray-600">contato@formulasul.com</p>
+                            <p class="mt-1 text-gray-600">formulasul.cars@gmail.com</p>
                         </div>
                     </div>
                 </div>

@@ -42,7 +42,7 @@
                 <div>
                     <button class="accordion-toggle w-full text-left font-semibold text-[var(--primary)] flex justify-between items-center py-3 px-4 bg-white shadow rounded">
                         {{ $faq->question }}
-                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 faq-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -127,20 +127,42 @@
 @endsection
 
 @section('scripts')
+<style>
+.accordion-content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.accordion-toggle .faq-arrow {
+    transition: transform 0.3s;
+}
+.accordion-toggle.open .faq-arrow {
+    transform: rotate(180deg);
+}
+</style>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.accordion-toggle').forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', function() {
             const content = button.nextElementSibling;
-            const isActive = content.classList.contains('active');
-            document.querySelectorAll('.accordion-content').forEach(item => {
-                item.classList.remove('active');
-                item.previousElementSibling.querySelector('svg').classList.remove('rotate-180');
-            });
-            if (!isActive) {
-                content.classList.add('active');
-                button.querySelector('svg').classList.add('rotate-180');
+            const isOpen = button.classList.contains('open');
+            if (isOpen) {
+                content.style.maxHeight = null;
+                button.classList.remove('open');
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                button.classList.add('open');
+                // Rola suavemente até a resposta expandida
+                setTimeout(() => {
+                    content.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 200);
             }
         });
     });
+    // Garante que ao recarregar, todos começam fechados
+    document.querySelectorAll('.accordion-content').forEach(content => {
+        content.style.maxHeight = null;
+    });
+});
 </script>
 @endsection

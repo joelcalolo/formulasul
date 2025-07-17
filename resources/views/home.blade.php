@@ -23,7 +23,7 @@
             @csrf
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Carro</label>
-                <select name="carro_principal_id" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" required>
+                <select name="carro_principal_id" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" required>
                     <option value="">Selecione um carro</option>
                     @foreach($cars as $car)
                         <option value="{{ $car->id }}">{{ $car->marca }} {{ $car->modelo }}</option>
@@ -34,27 +34,30 @@
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Data Início</label>
-                    <input type="date" name="data_inicio" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" required>
+                    <input type="date" name="data_inicio" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" required>
                     <div class="error-message hidden text-red-500 text-xs mt-1"></div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Data Fim</label>
-                    <input type="date" name="data_fim" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" required>
+                    <input type="date" name="data_fim" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" required>
                     <div class="error-message hidden text-red-500 text-xs mt-1"></div>
                 </div>
             </div>
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Local de Entrega</label>
-                <input type="text" name="local_entrega" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" placeholder="Digite o local de entrega" required>
+                <input type="text" name="local_entrega" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" placeholder="Digite o local de entrega" required>
                 <div class="error-message hidden text-red-500 text-xs mt-1"></div>
             </div>
-            <button type="submit" class="w-full bg-[var(--primary)] text-white py-3 rounded-lg font-semibold hover:bg-[var(--primary)]/90 transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
-                <span class="submit-text">Solicitar Aluguel</span>
-                <span class="loading-text hidden flex items-center">
+            <button type="submit" id="btn-solicitar-aluguel" class="w-full bg-[var(--primary)] text-white py-2 px-3 text-base rounded-md sm:py-3 sm:px-6 sm:text-lg sm:rounded-lg font-semibold hover:bg-[var(--primary)]/90 transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+                <span class="submit-text" style="display: inline;">Solicitar Aluguel</span>
+                <span class="loading-text" style="display: none; align-items: center;">
                     <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                     Processando...
                 </span>
             </button>
+            <div class="flex items-center justify-center gap-2 mt-3">
+                <img src="{{ asset('images/europcar-logo.png') }}" alt="Europcar" class="h-5" style="height: 20px; width: auto;"/>
+            </div>
         </form>
 
         <!-- Formulário Transfer -->
@@ -66,12 +69,12 @@
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Origem</label>
-                    <input type="text" name="origem" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" value="Aeroporto do Lubango" required>
+                    <input type="text" name="origem" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" value="Aeroporto do Lubango" required>
                     <div class="error-message hidden text-red-500 text-xs mt-1"></div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Destino</label>
-                    <input type="text" name="destino" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" placeholder="Ex: Hotel em Lubango" required>
+                    <input type="text" name="destino" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" placeholder="Ex: Hotel em Lubango" required>
                     <div class="error-message hidden text-red-500 text-xs mt-1"></div>
                 </div>
             </div>
@@ -80,12 +83,12 @@
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Data e Hora de Chegada</label>
-                    <input type="datetime-local" name="data_hora" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" required>
+                    <input type="datetime-local" name="data_hora" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" required>
                     <div class="error-message hidden text-red-500 text-xs mt-1"></div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Número do Voo</label>
-                    <input type="text" name="flight_number" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" placeholder="Ex: TAAG 123" required>
+                    <input type="text" name="flight_number" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" placeholder="Ex: TAAG 123" required>
                     <div class="error-message hidden text-red-500 text-xs mt-1"></div>
                 </div>
             </div>
@@ -94,30 +97,36 @@
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Número de Pessoas</label>
-                    <input type="number" name="num_pessoas" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" min="1" max="20" placeholder="Ex: 4" required>
+                    <input type="number" name="num_pessoas" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" min="1" max="20" placeholder="Ex: 4" required>
                     <div class="error-message hidden text-red-500 text-xs mt-1"></div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Observações (opcional)</label>
-                    <textarea name="observacoes" class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" rows="1" placeholder="Informações adicionais..."></textarea>
+                    <textarea name="observacoes" class="form-input w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-colors" rows="1" placeholder="Informações adicionais..."></textarea>
                     <div class="error-message hidden text-red-500 text-xs mt-1"></div>
                 </div>
             </div>
 
             <button type="submit" class="w-full bg-[var(--primary)] text-white py-3 rounded-lg font-semibold hover:bg-[var(--primary)]/90 transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
-                <span class="submit-text">Solicitar Transfer</span>
-                <span class="loading-text hidden flex items-center">
+                <span class="submit-text" style="display: inline;">Solicitar Transfer</span>
+                <span class="loading-text" style="display: none; align-items: center;">
                     <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                     Processando...
                 </span>
             </button>
+            <div class="flex items-center justify-center gap-2 mt-3">
+                <img src="{{ asset('images/europcar-logo.png') }}" alt="Europcar" class="h-5" style="height: 20px; width: auto;"/>
+            </div>
         </form>
 
             </div>
 
             <!-- Texto do Hero -->
             <div>
-                <span class="bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-bold uppercase px-2 py-1 rounded">Mobilidade Premium</span>
+                <span class="bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-bold uppercase px-2 py-1 rounded flex items-center gap-2">
+                    <img src="{{ asset('images/europcar-logo.png') }}" alt="Europcar" class="h-7" style="height: 28px; width: auto;"/>
+                    Mobilidade Premium
+                </span>
 
                 <h1 class="mt-4 text-4xl font-extrabold leading-tight text-white">
                     Sua jornada começa aqui com a melhor experiência em aluguel de veículos
@@ -262,30 +271,6 @@
         }
     </style>
 
-    <!-- Seção com duas colunas -->
-    <section class="bg-gray-50 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-start">
-            <!-- Coluna 1: Texto -->
-            <div>
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Conheça nossos serviços</h2>
-                <p class="text-gray-600 text-lg mb-6">
-                    Descubra como podemos ajudar você com soluções personalizadas de mobilidade. Nossa equipe está pronta para oferecer o melhor atendimento e tecnologia.
-                </p>
-                <a href="#servicos" class="inline-block bg-[var(--primary)] text-white px-6 py-3 rounded-lg font-semibold shadow hover:bg-[var(--primary)]/90 transition">Saiba mais</a>
-    </div>
-
-            <!-- Coluna 2: Formulário -->
-            <div class="bg-white p-8 rounded-lg shadow-md">
-                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Solicite uma cotação</h3>
-                <form action="#" method="POST" class="space-y-4">
-                    <input type="text" placeholder="Nome" class="w-full border border-gray-300 rounded px-4 py-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
-                    <input type="email" placeholder="Email" class="w-full border border-gray-300 rounded px-4 py-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
-                    <textarea placeholder="Mensagem" class="w-full border border-gray-300 rounded px-4 py-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]"></textarea>
-                    <button type="submit" class="w-full bg-[var(--primary)] text-white px-4 py-2 rounded hover:bg-[var(--primary)]/90 transition">Enviar</button>
-                </form>
-    </div>
-  </div>
-</section>
 
 
 
@@ -525,3 +510,59 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Para ambos os formulários com abas
+    var forms = document.querySelectorAll('.tab-form');
+    forms.forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            var btn = form.querySelector('button[type="submit"]');
+            var submitText = btn.querySelector('.submit-text');
+            var loadingText = btn.querySelector('.loading-text');
+            if (btn && submitText && loadingText) {
+                submitText.style.display = 'none';
+                loadingText.style.display = 'flex';
+                btn.disabled = true;
+            }
+        });
+    });
+
+    // Função para verificar se o usuário está autenticado (Laravel injeta variável auth)
+    const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
+
+    function handleProtectedForm(e) {
+        if (!isAuthenticated) {
+            e.preventDefault();
+            if (typeof openModal === 'function') openModal();
+            // Garante que o toast-container está no body
+            let toastContainer = document.getElementById('toast-container');
+            if (!toastContainer || toastContainer.parentElement !== document.body) {
+                if (toastContainer) toastContainer.remove();
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toast-container';
+                toastContainer.className = 'fixed top-4 right-4 z-[9999] space-y-2';
+                document.body.appendChild(toastContainer);
+            }
+            if (window.showError) {
+                window.showError('Atenção', 'Você precisa estar logado para fazer uma solicitação. Por favor, crie uma conta ou faça login se já possui uma.');
+            } else if (window.showToast) {
+                window.showToast('Você precisa estar logado para fazer uma solicitação. Por favor, crie uma conta ou faça login se já possui uma.', 'error');
+            }
+            return false;
+        }
+        return true;
+    }
+
+    const formAluguel = document.getElementById('form-aluguel');
+    if (formAluguel) {
+        formAluguel.addEventListener('submit', handleProtectedForm);
+    }
+    const formTransfer = document.getElementById('form-transfer');
+    if (formTransfer) {
+        formTransfer.addEventListener('submit', handleProtectedForm);
+    }
+});
+</script>
+@endpush

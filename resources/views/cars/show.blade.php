@@ -299,19 +299,19 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Data Início</label>
                     <input type="date" name="data_inicio" id="data_inicio" required 
-                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
+                           class="w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Data Fim</label>
                     <input type="date" name="data_fim" id="data_fim" required 
-                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
+                           class="w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
                 </div>
             </div>
             
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Serviço</label>
                 <select name="tipo_servico" id="tipo_servico" required 
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
+                        class="w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
                     <option value="">Selecione o tipo de serviço</option>
                     @if($car->priceTable->preco_dentro_com_motorista > 0)
                         <option value="dentro_com_motorista">Dentro da Cidade (Com Motorista)</option>
@@ -331,13 +331,13 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Local de Entrega</label>
                 <input type="text" name="local_entrega" required placeholder="Digite o local de entrega"
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
+                       class="w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]">
             </div>
             
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Observações (opcional)</label>
                 <textarea name="observacoes" rows="3" placeholder="Informações adicionais..."
-                          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]"></textarea>
+                          class="w-full border border-gray-300 rounded-md px-2 py-2 text-base sm:rounded-lg sm:px-3 sm:py-2 sm:text-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]"></textarea>
             </div>
             
             <!-- Preço estimado em tempo real -->
@@ -351,9 +351,9 @@
                 </div>
             </div>
             
-            <button type="submit" class="w-full bg-[var(--primary)] text-white py-3 rounded-lg font-semibold hover:bg-[var(--primary)]/90 transition-all duration-200 hover:scale-105 flex items-center justify-center">
-                <span class="submit-text">Confirmar Reserva</span>
-                <span class="loading-text hidden flex items-center">
+            <button type="submit" class="w-full bg-[var(--primary)] text-white py-2 px-3 text-base rounded-md sm:py-3 sm:px-6 sm:text-lg sm:rounded-lg font-semibold hover:bg-[var(--primary)]/90 transition-all duration-200 hover:scale-105 flex items-center justify-center">
+                <span class="submit-text" style="display: inline;">Confirmar Reserva</span>
+                <span class="loading-text" style="display: none; align-items: center;">
                     <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                     Processando...
                 </span>

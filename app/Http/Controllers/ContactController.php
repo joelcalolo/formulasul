@@ -57,7 +57,7 @@ class ContactController extends Controller
             }
 
             // Enviar email
-            Mail::to('contato@formulasul.com')->send(new ContactFormMail($emailData));
+            Mail::to('formulasul.cars@gmail.com')->send(new ContactFormMail($emailData));
 
             Log::info('Contact form submitted successfully', [
                 'name' => $validated['name'],
